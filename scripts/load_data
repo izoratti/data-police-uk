@@ -2,6 +2,8 @@
 
 #set -x
 
+data_police_home=`PWD`
+
 if [ -z "${1}" ]; then
 
   echo
@@ -18,14 +20,26 @@ else
 
 fi
 
-cd data
+if [ -z "${2}" ]; then
+  
+  echo
+  echo "Missing Neo4j home directory."
+  echo
+  exit
 
+else
+
+  neo4j_home="${HOME}/release/${2}"
+
+fi
+
+cd data
 if [ -f "${zip_file}" ]; then
 
   echo
   echo "unzipping ${zip_file}"
   echo 
-  unzip "${zip_file}"
+  #unzip "${zip_file}"
 
 else
 
@@ -34,5 +48,18 @@ else
   echo 
 
 fi
+
+echo 
+echo
+echo "Loading data..."
+echo
+
+for load_dir in $( ls -d 20*/ )
+do
+  for file_to_load in $( ls ${load_dir}*csv ) 
+  do
+    echo "$file_to_load"
+  done
+done
 
 exit 0
