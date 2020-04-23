@@ -40,6 +40,12 @@ if [ "${neo4j_check}" == "Neo4j is not running" ]; then
   
   echo "The Neo4j server is not running."
   missing_something=true
+
+else
+
+  #Createing the police database
+  ${neo4j_home}/bin/cypher-shell -f ${data_police_home}/cypher/create_db.cypher
+
 fi
 
 if [ "${missing_something}" = true ]; then
