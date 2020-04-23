@@ -66,9 +66,10 @@ echo
 
 for load_dir in $( ls -d 20*/ )
 do
-  for file_to_load in $( ls ${load_dir}*csv ) 
+  cd ${data_police_home}/data/${load_dir}
+  for file_to_load in $( ls *csv ) 
   do
-    echo "$file_to_load"
+    echo "cp ${file_to_load} ${neo4j_home}/import/${file_to_load}"
   done
 done
 
