@@ -2,15 +2,16 @@
 
 #set -x
 
-missing_file=false
+missing_something=false
 data_police_home="$PWD"
 
 echo
 
+# Checkign if the zip file exists
 if [ -z "${1}" ]; then
 
   echo "Missing file to unzip"
-  missing_file=true
+  missing_something=true
 
 else
 
@@ -18,23 +19,36 @@ else
 
 fi
 
+#checking if the neo4j Home directory exists
 if [ -z "${2}" ]; then
   
   echo "Missing Neo4j home directory."
-  missing_file=true
-
-else
-
-  neo4j_home="${HOME}/release/${2}"
+  missing_something=true
 
 fi
 
-if [ "${missing_file}" = true ]; then
+neo4j_home="${HOME}/release/${2}"
+if [ ! -d "${neo4j_home}" ]; then
+  
+  echo "The Neo4j home directory does not exist."
+  missing_something=true
+fi
 
+#checking if Neo4j is running
+neo4j_check=`${neo4j_home}/bin/neo4j status`
+if [ "${neo4j_check}" == "Neo4j is not running" ]; then
+  
+  echo "The Neo4j server is not running."
+  missing_something=true
+fi
+
+if [ "${missing_something}" = true ]; then
+
+  echo
   echo "Usage: ${0} YYYY-MM neo4j-home"
   echo "       YYYY       - year"
   echo "       MM         - month"
-  echo "       neo4j-home - home directory for Neo4j"
+  echo "       neo4j-home - Home directory for Neo4j"
   echo
   echo "Example: ${0} 2020-02 403"
   echo
@@ -70,6 +84,7 @@ do
   for file_to_load in $( ls *csv ) 
   do
     echo "cp ${file_to_load} ${neo4j_home}/import/${file_to_load}"
+    echo "rm ${neo4j_home}/import/${file_to_load}"
   done
 done
 
