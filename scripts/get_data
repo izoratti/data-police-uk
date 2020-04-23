@@ -2,6 +2,7 @@
 
 period=${1}
 
+cd data
 echo "Retrieving ${period} data."
 wget https://data.police.uk/data/archive/${period}.zip
 
