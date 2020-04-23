@@ -44,7 +44,8 @@ if [ "${neo4j_check}" == "Neo4j is not running" ]; then
 else
 
   #Createing the police database
-  ${neo4j_home}/bin/cypher-shell -f ${data_police_home}/cypher/create_db.cypher
+  echo "Creating the police database..."
+  ${neo4j_home}/bin/cypher-shell -d system -f ${data_police_home}/cypher/create_db.cypher
 
 fi
 

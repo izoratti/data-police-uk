@@ -1,1 +1,1 @@
-CREATE DATABASE IF NOT EXISTS data-police-uk;
+CREATE DATABASE `data-police-uk` IF NOT EXISTS;
