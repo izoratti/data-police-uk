@@ -1,0 +1,8 @@
+#!/bin/bash
+
+period=${1}
+
+echo "Retrieving ${period} data."
+wget https://data.police.uk/data/archive/${period}.zip
+
+exit 0
