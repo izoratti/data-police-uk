@@ -2,18 +2,16 @@
 
 #set -x
 
-data_police_home=`PWD`
+missing_file=false
+data_police_home="$PWD"
+
+echo
 
 if [ -z "${1}" ]; then
 
-  echo
-  echo "Usage: ${0} YYYY-MM"
-  echo "       YYYY - year"
-  echo "       MM   - month"
-  echo "Example: ${0} 2020-02"
-  echo
-  exit 
-  
+  echo "Missing file to unzip"
+  missing_file=true
+
 else
 
   zip_file="${1}.zip"
@@ -22,10 +20,8 @@ fi
 
 if [ -z "${2}" ]; then
   
-  echo
   echo "Missing Neo4j home directory."
-  echo
-  exit
+  missing_file=true
 
 else
 
@@ -33,6 +29,20 @@ else
 
 fi
 
+if [ "${missing_file}" = true ]; then
+
+  echo "Usage: ${0} YYYY-MM neo4j-home"
+  echo "       YYYY       - year"
+  echo "       MM         - month"
+  echo "       neo4j-home - home directory for Neo4j"
+  echo
+  echo "Example: ${0} 2020-02 403"
+  echo
+
+  exit 
+
+fi
+  
 cd data
 if [ -f "${zip_file}" ]; then
 
