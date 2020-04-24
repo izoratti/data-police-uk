@@ -5,9 +5,34 @@
 missing_something=false
 data_police_home="$PWD"
 
+file_to_load=""
+header_to_use=""
+
+
+#
+# Select the right header
+select_header() {
+
+  case $file_to_load} in
+
+    *-outcomes.csv)
+    ;;
+
+    *)
+      echo
+      echo "ERROR: Header not founf for ${file_to_load}"
+      echo
+      exit 0
+    ;;
+
+  esac
+
+}
+
+
 echo
 
-# Checkign if the zip file exists
+# Checking if the zip file exists
 if [ -z "${1}" ]; then
 
   echo "Missing file to unzip"
@@ -90,9 +115,11 @@ do
   cd ${data_police_home}/data/${load_dir}
   for file_to_load in $( ls *csv ) 
   do
-    echo "cp ${file_to_load} ${neo4j_home}/import/${file_to_load}"
+    echo "cp ${data_police_home}/cleansing-tools/headers/outcomes.header ${neo4j_home}/import/${file_to_load}"
+    echo "tail -n +2 ${file_to_load} >> ${neo4j_home}/import/${file_to_load}"
     echo "rm ${neo4j_home}/import/${file_to_load}"
   done
 done
 
 exit 0
+
